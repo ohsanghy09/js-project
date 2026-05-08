@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f6fa;
+  color: #222;
+}
+
+/* class="app" 선택 */
+.app {
+  width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  margin-bottom: 24px;
+  font-size: 28px;
+}
+
+h2 {
+  margin-top: 24px;
+  font-size: 20px;
+}
+
+/* 생산품, 카트 섹션에 동시 적용 */
+.product-section,
+.cart-section {
+  background-color: #f7f7f7;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.product-list {
+  display: flex;
+  flex-direction: column;  /* 요소 세로로 적용 */
+  gap: 10px;
+}
+
+/* 생산품, 카트 아이템에 동시 적용 */
+.product-item,
+.cart-item {
+  display: flex;
+  justify-content: space-between; /* 가로 방향으로 요소 정렬 */
+  align-items: center;  /* 가로 방향의 요소 반대 축(세로 축)으로 중앙 정렬 */
+  gap: 12px;
+  padding: 12px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.cart-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* cart-item에 추가 적용 */
+.cart-item {
+  margin-bottom: 10px;
+}
+
+button {
+  border: none;
+  padding: 7px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.add-btn {
+  background-color: #2f80ed;
+}
+
+.minus-btn {
+  background-color: #f2994a;
+}
+
+.delete-btn {
+  background-color: #eb5757;
+}
+
+/* 마우스 올렸을 때 버튼 살짝 투명하게 */
+button:hover {
+  opacity: 0.85;
+}
+
+/* 총 금액 */
+.total {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;  /* 우측 정렬 */
+}
