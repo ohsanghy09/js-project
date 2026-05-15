@@ -102,16 +102,16 @@ function showCart() {
     // 생산품 데이터 하나씩 생산품 리스트에 넣음 (배열 : cart)
     cart.forEach(function (item) {
 
-        // div요소 생성 후 cartItem으로 할당
-        const cartItem = document.createElement("div");
+        // li요소 생성 후 cartItem으로 할당
+        const cartItem = document.createElement("li");
 
-        // div 요소, 즉 cartItem 하나 당 클래스 적용
+        // li 요소, 즉 cartItem 하나 당 클래스 적용
         cartItem.classList.add("cart-item");
 
         // 상품별 총 금액 계산
         const itemTotalPrice = item.price * item.quantity;
 
-        // div(carttItem)에 요소 삽입 
+        // li(carttItem)에 요소 삽입 
         cartItem.innerHTML = `
             <span>${item.name}</span>
             <strong>${item.price}</strong>
@@ -121,7 +121,7 @@ function showCart() {
             <button class="delete-btn" data-id="${item.id}">목록 삭제</button>
         `;
 
-        // 만든 div(productItem)을 생산품 리스트에 넣기
+        // 만든 li(productItem)를 생산품 리스트에 넣기
         cartList.appendChild(cartItem);
 
     })
@@ -130,44 +130,62 @@ function showCart() {
 }
 
 
+// 장바구니 목록 제거 함수
+function removeCartItem(cartId, itemName) {
+
+  // 삭제 전 경고창
+  const result = confirm(`해당 상품(${itemName})을 장바구니에서 삭제할까요?`);
+
+  // 사용자가 취소를 누르면 해당 시점에서 코드 종료
+  if (result === false) {
+    return;
+  }
+
+  // cart 배열에서 cartId와 다른 id를 가진 상품만 남김
+  cart = cart.filter(function (item) { // filter는 true만 골라서 재배열
+    return item.id !== cartId; // 같지 않다면 true, 같으면 false
+  });
+
+  // 장바구니 화면 다시 출력
+  showCart();
+}
+
+
+// 수량 감소 함수
+function decreaseCartItem(cartId) {
+
+  // cart 배열에서 클릭한 상품 확인 (find 함수는 객체 반환)
+  const selectedCart = cart.find(function (item) {
+    return item.id === cartId;
+  });
+
+  // 만약 수량이 1이하가 되면 cart 배열에서 제거
+  if (selectedCart.quantity <= 1) {
+    removeCartItem(cartId, selectedCart.name);
+    return;
+  }
+
+  // 찾은 상품의 수량을 1 감소
+  selectedCart.quantity -= 1;
+
+  // 장바구니 화면 다시 출력
+  showCart();
+}
+
+
 // -1 클릭 시 동작
 cartList.addEventListener("click", function (event) {
 
-    // 만약 클릭한 요소의 class에 "minus-btn"이 있다면
-    if (event.target.classList.contains("minus-btn")) {
+  // 만약 클릭한 요소의 class에 "minus-btn"이 있다면
+  if (event.target.classList.contains("minus-btn")) {
 
-        //클릭 요소 data- 형태의 요소 출력
-        const cartId = Number(event.target.dataset.id);
+    // 클릭 요소 data- 형태의 요소 출력
+    const cartId = Number(event.target.dataset.id);
 
-        // cart 배열에서 클릭한 상품 확인 (find 함수는 객체 반환)
-        const selectedCart = cart.find(function (item) {
-            return item.id === cartId;
-        });
-
-        // 만약 수량이 1이하가 되면 cart 배열에서 제거
-        if (selectedCart.quantity <= 1) {
-
-            // 삭제 전 경고창
-            const result = confirm(`해당 상품(${selectedCart.name})을 장바구니에서 삭제할까요?`);
-
-            // 사용자가 취소를 누르면 해당 시점에서 코드 종료
-            if (result === false) {
-                return;
-            }
-
-            // cart 배열에서 cartId와 다른 id를 가진 상품만 남김
-            cart = cart.filter(function (item) { // filter는 true만 골라서 재배열
-                return item.id !== cartId; // 같지 않다면 true, 같으면 false
-            });
-        }
-
-        // 찾은 상품의 수량을 1 감소
-        selectedCart.quantity -= 1;
-
-        // 장바구니 화면 다시 출력
-        showCart();
-    }
-})
+    // 수량 감소 함수 실행
+    decreaseCartItem(cartId);
+  }
+});
 
 
 // 목록 삭제 클릭 시 동작
